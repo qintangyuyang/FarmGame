@@ -7,7 +7,7 @@ public class ItemDetails
     public int ItemId;
 
     /// <summary>物品名字</summary>
-    public string name;
+    public string ItemName;
 
     /// <summary>物品类型</summary>
     public ItemType itemType;
