@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class SwitchBounds : MonoBehaviour
 {
-    //TODO:切换场景后更改调用
+    // TODO Fix
     void Start()
     {
         SwitchConfinerShape();
