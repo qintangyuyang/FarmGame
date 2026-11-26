@@ -38,5 +38,5 @@ public class ItemDetails
 
     /// <summary>售卖时折扣的百分比</summary>
     [Range(0, 1)]
-    public float seelPercentage;
+    public float sellPercentage;
 }

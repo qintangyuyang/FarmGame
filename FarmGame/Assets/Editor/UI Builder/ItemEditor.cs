@@ -55,6 +55,10 @@ public class ItemEditor : EditorWindow
         itemDetailsSection = root.Q<ScrollView>("ItemDetails");
         iconPreview = itemDetailsSection.Q<VisualElement>("Icon");
 
+        //获得按键
+        root.Q<Button>("AddButton").clicked += OnAddButtonClicked;
+        root.Q<Button>("DeleteButton").clicked += OnDeleteButtonClicked;
+
         //加载数据
         LoadDataBase();
 
@@ -62,11 +66,29 @@ public class ItemEditor : EditorWindow
         GenerateListView();
     }
 
+    #region 按键事件
+    private void OnDeleteButtonClicked()
+    {
+        itemList.Remove(activeItem);
+        itemListView.Rebuild();
+        itemDetailsSection.visible = false;
+    }
+
+    private void OnAddButtonClicked()
+    {
+        ItemDetails newItem = new ItemDetails();
+        newItem.ItemName = "NEW ITEM";
+        newItem.ItemId = 1001 + itemList.Count;
+        itemList.Add(newItem);
+        itemListView.Rebuild();
+    }
+    #endregion
+
     private void LoadDataBase()
     {
         string[] dataArray = AssetDatabase.FindAssets("ItemDataList_SO");
 
-        if (dataArray.Length > 1)
+        if (dataArray.Length >= 1)
         {
             var path = AssetDatabase.GUIDToAssetPath(dataArray[0]);
             dataBase = AssetDatabase.LoadAssetAtPath(path, typeof(ItemDataList_SO)) as ItemDataList_SO;
@@ -94,7 +116,7 @@ public class ItemEditor : EditorWindow
             }
         };
 
-        itemListView.fixedItemHeight = 60;
+        itemListView.fixedItemHeight = 50;
         itemListView.itemsSource = itemList;
         itemListView.makeItem = makeItem;
         itemListView.bindItem = bindItem;
@@ -138,6 +160,62 @@ public class ItemEditor : EditorWindow
 
             iconPreview.style.backgroundImage = newIcon == null ? defaultIcon.texture : newIcon.texture;
             itemListView.Rebuild();
+        });
+
+        //其他所有变量的绑定
+        itemDetailsSection.Q<ObjectField>("ItemSprite").value = activeItem.itemOnWorldSprite;
+        itemDetailsSection.Q<ObjectField>("ItemSprite").RegisterValueChangedCallback(evt =>
+        {
+            activeItem.itemOnWorldSprite = (Sprite)evt.newValue;
+        });
+
+        itemDetailsSection.Q<EnumField>("ItemType").Init(activeItem.itemType);
+        itemDetailsSection.Q<EnumField>("ItemType").value = activeItem.itemType;
+        itemDetailsSection.Q<EnumField>("ItemType").RegisterValueChangedCallback(evt =>
+        {
+            activeItem.itemType = (ItemType)evt.newValue;
+        });
+
+        itemDetailsSection.Q<TextField>("Description").value = activeItem.itemDescription;
+        itemDetailsSection.Q<TextField>("Description").RegisterValueChangedCallback(evt =>
+        {
+            activeItem.itemDescription = evt.newValue;
+        });
+
+        itemDetailsSection.Q<IntegerField>("ItemUseRadius").value = activeItem.itemUseRadius;
+        itemDetailsSection.Q<IntegerField>("ItemUseRadius").RegisterValueChangedCallback(evt =>
+        {
+            activeItem.itemUseRadius = evt.newValue;
+        });
+
+        itemDetailsSection.Q<Toggle>("CanPickedup").value = activeItem.canPickedup;
+        itemDetailsSection.Q<Toggle>("CanPickedup").RegisterValueChangedCallback(evt =>
+        {
+            activeItem.canPickedup = evt.newValue;
+        });
+
+        itemDetailsSection.Q<Toggle>("CanDropped").value = activeItem.canDropped;
+        itemDetailsSection.Q<Toggle>("CanDropped").RegisterValueChangedCallback(evt =>
+        {
+            activeItem.canDropped = evt.newValue;
+        });
+
+        itemDetailsSection.Q<Toggle>("CanCarried").value = activeItem.canCarried;
+        itemDetailsSection.Q<Toggle>("CanCarried").RegisterValueChangedCallback(evt =>
+        {
+            activeItem.canCarried = evt.newValue;
+        });
+
+        itemDetailsSection.Q<IntegerField>("Price").value = activeItem.itemPrice;
+        itemDetailsSection.Q<IntegerField>("Price").RegisterValueChangedCallback(evt =>
+        {
+            activeItem.itemPrice = evt.newValue;
+        });
+
+        itemDetailsSection.Q<Slider>("SellPercentage").value = activeItem.sellPercentage;
+        itemDetailsSection.Q<Slider>("SellPercentage").RegisterValueChangedCallback(evt =>
+        {
+            activeItem.sellPercentage = evt.newValue;
         });
 
     }
