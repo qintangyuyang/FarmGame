@@ -21,3 +21,13 @@ public enum ItemType
     /// <summary>可以被割的杂草</summary>
     ReapableScenery,
 }
+
+public enum SlotType
+{
+    /// <summary>背包</summary>
+    Bag,
+    /// <summary>盒子</summary>
+    Box,
+    /// <summary>商店</summary>
+    Shop
+}
