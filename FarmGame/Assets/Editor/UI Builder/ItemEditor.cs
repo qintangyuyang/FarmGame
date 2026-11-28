@@ -77,8 +77,8 @@ public class ItemEditor : EditorWindow
     private void OnAddButtonClicked()
     {
         ItemDetails newItem = new ItemDetails();
-        newItem.ItemName = "NEW ITEM";
-        newItem.ItemId = 1001 + itemList.Count;
+        newItem.itemName = "NEW ITEM";
+        newItem.itemId = 1001 + itemList.Count;
         itemList.Add(newItem);
         itemListView.Rebuild();
     }
@@ -112,7 +112,7 @@ public class ItemEditor : EditorWindow
                 {
                     e.Q<VisualElement>("Icon").style.backgroundImage = itemList[i].itemIcon.texture;
                 }
-                e.Q<Label>("Name").text = itemList[i].ItemName == null ? "No Item" : itemList[i].ItemName;
+                e.Q<Label>("Name").text = itemList[i].itemName == null ? "No Item" : itemList[i].itemName;
             }
         };
 
@@ -138,16 +138,16 @@ public class ItemEditor : EditorWindow
     {
         itemDetailsSection.MarkDirtyRepaint();
 
-        itemDetailsSection.Q<IntegerField>("ItemID").value = activeItem.ItemId;
+        itemDetailsSection.Q<IntegerField>("ItemID").value = activeItem.itemId;
         itemDetailsSection.Q<IntegerField>("ItemID").RegisterValueChangedCallback(evt =>
         {
-            activeItem.ItemId = evt.newValue;
+            activeItem.itemId = evt.newValue;
         });
 
-        itemDetailsSection.Q<TextField>("ItemName").value = activeItem.ItemName;
+        itemDetailsSection.Q<TextField>("ItemName").value = activeItem.itemName;
         itemDetailsSection.Q<TextField>("ItemName").RegisterValueChangedCallback(evt =>
         {
-            activeItem.ItemName = evt.newValue;
+            activeItem.itemName = evt.newValue;
             itemListView.Rebuild();
         });
 

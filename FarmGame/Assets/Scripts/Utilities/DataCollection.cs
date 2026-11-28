@@ -4,10 +4,10 @@ using UnityEngine;
 public class ItemDetails
 {
     /// <summary>物品id</summary>
-    public int ItemId;
+    public int itemId;
 
     /// <summary>物品名字</summary>
-    public string ItemName;
+    public string itemName;
 
     /// <summary>物品类型</summary>
     public ItemType itemType;

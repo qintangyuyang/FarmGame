@@ -19,7 +19,7 @@ namespace MFarm.Inventory
         /// <summary>根据id快速找到物品详情</summary>
         public ItemDetails GetItemDetails(int id)
         {
-            return itemDataList_SO.itemDetailsList.Find(i => i.ItemId == id);
+            return itemDataList_SO.itemDetailsList.Find(i => i.itemId == id);
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace MFarm.Inventory
 
             AddItemAtIndex(item.itemID, index, 1);
 
-            Debug.Log(GetItemDetails(item.itemID).ItemId + "Name:" + GetItemDetails(item.itemID).ItemName);
+            Debug.Log(GetItemDetails(item.itemID).itemId + "Name:" + GetItemDetails(item.itemID).itemName);
             if (toDestory)
             {
                 Destroy(item.gameObject);
@@ -107,6 +107,30 @@ namespace MFarm.Inventory
                 var item = new InventoryItem { itemID = id, itemAmount = currentAmount };
                 playerBag.itemList[index] = item;
             }
+        }
+
+        /// <summary>
+        /// Player背包范围内交换物品
+        /// </summary>
+        /// <param name="formIndex">起始序号</param>
+        /// <param name="targetIndex">目标序号</param>
+        public void SwapItem(int formIndex, int targetIndex)
+        {
+            InventoryItem currentItem = playerBag.itemList[formIndex];
+            InventoryItem targetItem = playerBag.itemList[targetIndex];
+
+            if (targetItem.itemID != 0)
+            {
+                playerBag.itemList[formIndex] = targetItem;
+                playerBag.itemList[targetIndex] = currentItem;
+            }
+            else
+            {
+                playerBag.itemList[targetIndex] = currentItem;
+                playerBag.itemList[formIndex] = new InventoryItem();
+            }
+
+            EventHandler.CallUpdataInventoryUI(InventoryLocation.Player, playerBag.itemList);
         }
     }
 }
