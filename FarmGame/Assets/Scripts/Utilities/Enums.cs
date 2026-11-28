@@ -31,3 +31,9 @@ public enum SlotType
     /// <summary>商店</summary>
     Shop
 }
+
+public enum InventoryLocation
+{
+    Player,
+    Box
+}
